@@ -1,6 +1,6 @@
-package com.yls-tech.plugin;
+package com.yls.tech.plugin;
 
-import com.yls-tech.plugin.WpsUtil;
+import com.yls.tech.plugin.WpsUtil;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;

@@ -1,4 +1,4 @@
-package com.yls-tech.plugin;
+package com.yls.tech.plugin;
 
 import android.app.Activity;
 import android.app.ActivityManager;
