@@ -132,7 +132,7 @@ public class WpsUtil {
             bundle.putBoolean(Define.ENTER_REVISE_MODE, true);
             bundle.putBoolean(Define.IS_SHOW_VIEW, false);
             bundle.putBoolean(Define.AUTO_JUMP, true);
-            bundle.putString(Define.USER_NAME,userName);
+            bundle.putString(Define.USER_NAME, userName);
             bundle.putBoolean(Define.CLEAR_TRACE,true);
             bundle.putBoolean(Define.CLEAR_BUFFER,true);
             //bundle.putBoolean(Define.CLEAR_FILE,true);
@@ -141,8 +141,9 @@ public class WpsUtil {
             //第三方应用的包名，用于对改应用合法性的验证
             // bundle.putBoolean(Define.CLEAR_FILE, true);
             //关闭后删除打开文件
-            intent.setAction(Intent.ACTION_VIEW);
+            intent.setAction(Intent.ACTION_MAIN);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             intent.setData(Uri.parse(fileUrl));
             intent.putExtras(bundle);
             mActivity.startActivity(intent);
