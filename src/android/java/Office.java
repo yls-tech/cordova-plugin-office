@@ -14,7 +14,7 @@ import java.io.File;
 /**
  * This class echoes a string called from JavaScript.
  */
-public class Office extends CordovaPlugin {
+public class Office extends CordovaPlugin implements WpsUtil.WpsInterface {
 	private WpsUtil wpsUtil;
 
     @Override
