@@ -1,0 +1,24 @@
+{
+  "name": "office",
+  "version": "1.0.0",
+  "description": "cordova plugin office",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yls-tech/cordova-plugin-office.git"
+  },
+  "keywords": [
+    "cordova",
+    "plugin",
+    "office"
+  ],
+  "author": "Yan Lai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yls-tech/cordova-plugin-office/issues"
+  },
+  "homepage": "https://github.com/yls-tech/cordova-plugin-office#readme"
+}
