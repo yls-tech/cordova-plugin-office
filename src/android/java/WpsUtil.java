@@ -1,5 +1,7 @@
 package com.yls.tech.plugin;
 
+import com.yls.tech.plugin.Define;
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
