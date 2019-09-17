@@ -118,7 +118,7 @@ public class WpsUtil {
             Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage("cn.wps.moffice_eng");
             Bundle bundle = new Bundle();
             if (canWrite) {
-                bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
+                bundle.putString(Define.OPEN_MODE, Define.NORMAL);
                 bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
             } else {
                 bundle.putString(Define.OPEN_MODE, Define.NORMAL);
