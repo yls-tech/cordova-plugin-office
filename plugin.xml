@@ -5,13 +5,34 @@
     <clobbers target="cordova.plugins.Office"/>
   </js-module>
   <platform name="android">
+    <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
+      <activity android:usesCleartextTraffic="true"/>
+    </edit-config>
     <config-file parent="/*" target="res/xml/config.xml">
       <feature name="Office">
         <param name="android-package" value="com.yls.tech.plugin.Office"/>
       </feature>
     </config-file>
-    <config-file parent="/*" target="AndroidManifest.xml"/>
-    <source-file src="src/android/Office.java" target-dir="src/com/yls/tech/plugin/Office"/>
+    <config-file target="AndroidManifest.xml" parent="application">
+      <provider
+          android:name="android.support.v4.content.FileProvider"
+          android:authorities="${applicationId}.fileProvider"
+          android:exported="false"
+          android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths"/>
+      </provider>
+    </config-file>
+    <config-file parent="/*" target="AndroidManifest.xml">
+      <uses-permission android:name="android.permission.INTERNET"/>
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+      <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    </config-file>
+    <source-file src="src/android/java/WpsUtil.java" target-dir="src/com/yls/tech/plugin"/>
+    <source-file src="src/android/java/Office.java" target-dir="src/com/yls/tech/plugin"/>
+    <resource-file src="src/android/res/file_paths.xml" target="res/xml/file_paths.xml"/>
   </platform>
   <platform name="ios">
     <config-file parent="/*" target="config.xml">
