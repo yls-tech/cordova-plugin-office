@@ -23,9 +23,12 @@ import java.util.List;
 public class Office extends CordovaPlugin implements WpsUtil.WpsInterface {
 	private WpsUtil wpsUtil;
     private String backUrl = "";
+    private CallbackContext McallbackContext;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        this.McallbackContext = callbackContext;
+
         if (action.equals("open")) {
             String path = args.getString(0);
             this.open(path, callbackContext);
