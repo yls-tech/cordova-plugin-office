@@ -1,5 +1,7 @@
 package com.yls.tech.plugin;
 
+import android.util.Log;
+
 import com.yls.tech.plugin.WpsUtil;
 
 import org.apache.cordova.CordovaPlugin;
