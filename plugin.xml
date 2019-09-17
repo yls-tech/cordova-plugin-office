@@ -5,9 +5,6 @@
     <clobbers target="cordova.plugins.Office"/>
   </js-module>
   <platform name="android">
-    <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
-      <activity android:usesCleartextTraffic="true"/>
-    </edit-config>
     <config-file parent="/*" target="res/xml/config.xml">
       <feature name="Office">
         <param name="android-package" value="com.yls.tech.plugin.Office"/>
