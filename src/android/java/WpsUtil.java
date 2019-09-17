@@ -78,7 +78,7 @@ public class WpsUtil {
 
             Bundle bundle = new Bundle();
             //打开模式
-            bundle.putString(Define.OPEN_MODE, Define.NORMAL);
+            bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
             bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
             //bundle.putString(Define.OPEN_MODE, Define.READ_ONLY);
             bundle.putBoolean(Define.SEND_SAVE_BROAD, true);
@@ -118,7 +118,7 @@ public class WpsUtil {
             Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage("cn.wps.moffice_eng");
             Bundle bundle = new Bundle();
             if (canWrite) {
-                bundle.putString(Define.OPEN_MODE, Define.NORMAL);
+                bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
                 bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
             } else {
                 bundle.putString(Define.OPEN_MODE, Define.NORMAL);
