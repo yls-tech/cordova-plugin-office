@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-office" version="1.0.0">
+  <name>Office</name>
+  <js-module name="Office" src="www/Office.js">
+    <clobbers target="cordova.plugins.Office"/>
+  </js-module>
+  <platform name="android">
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="Office">
+        <param name="android-package" value="cordova.plugin.Office"/>
+      </feature>
+    </config-file>
+    <config-file parent="/*" target="AndroidManifest.xml"/>
+    <source-file src="src/android/Office.java" target-dir="src/cordova/plugin/Office"/>
+  </platform>
+  <platform name="ios">
+    <config-file parent="/*" target="config.xml">
+      <feature name="Office">
+        <param name="ios-package" value="Office"/>
+      </feature>
+    </config-file>
+    <source-file src="src/ios/Office.m"/>
+  </platform>
+</plugin>
