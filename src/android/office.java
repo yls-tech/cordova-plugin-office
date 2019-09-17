@@ -11,6 +11,7 @@ import org.json.JSONObject;
  * This class echoes a string called from JavaScript.
  */
 public class office extends CordovaPlugin {
+    private WpsUtil wpsUtil;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -24,6 +25,8 @@ public class office extends CordovaPlugin {
 
     private void open(String message, CallbackContext callbackContext) {
         if (message != null && message.length() > 0) {
+            wpsUtil = new WpsUtil(this, "", "", true, cordova.getActivity());
+            wpsUtil.openDocument(new File(message.trim()));
             callbackContext.success(message);
         } else {
             callbackContext.error("Expected one non-empty string argument.");
