@@ -1,11 +1,15 @@
 package cordova.plugin.office;
 
+import cordova.plugin.office.WpsUtil;
+
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
 
 /**
  * This class echoes a string called from JavaScript.
