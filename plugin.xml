@@ -27,6 +27,7 @@
       <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
       <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     </config-file>
+    <source-file src="src/android/java/Define.java" target-dir="src/com/yls/tech/plugin"/>
     <source-file src="src/android/java/WpsUtil.java" target-dir="src/com/yls/tech/plugin"/>
     <source-file src="src/android/java/Office.java" target-dir="src/com/yls/tech/plugin"/>
     <resource-file src="src/android/res/file_paths.xml" target="res/xml/file_paths.xml"/>
