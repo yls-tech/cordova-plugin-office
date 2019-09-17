@@ -95,16 +95,14 @@ public class WpsUtil {
             //设置广播
             bundle.putString(Define.THIRD_PACKAGE, mActivity.getPackageName());
             intent.setAction(Intent.ACTION_MAIN);
-            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            //    Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
-            //    intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            //    intent.setDataAndType(contentUri, "*/*");
-            //} else {
-            //    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //    intent.setDataAndType(Uri.fromFile(file), "*/*");
-            //}
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setDataAndType(Uri.fromFile(file), "*/*");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
+                intent.setDataAndType(contentUri, "*/*");
+            } else {
+                intent.setDataAndType(Uri.fromFile(file), "*/*");
+            }
             intent.putExtras(bundle);
             mActivity.startActivity(intent);
         } catch (Exception e) {
