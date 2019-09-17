@@ -11,14 +11,11 @@
       </feature>
     </config-file>
     <config-file target="AndroidManifest.xml" parent="application">
-      <provider
-          android:name="android.support.v4.content.FileProvider"
+      <provider android:name="android.support.v4.content.FileProvider"
           android:authorities="${applicationId}.fileProvider"
           android:exported="false"
           android:grantUriPermissions="true">
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/file_paths"/>
+        <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"/>
       </provider>
     </config-file>
     <config-file parent="/*" target="AndroidManifest.xml">
@@ -31,6 +28,8 @@
     <source-file src="src/android/java/WpsUtil.java" target-dir="src/com/yls/tech/plugin"/>
     <source-file src="src/android/java/Office.java" target-dir="src/com/yls/tech/plugin"/>
     <resource-file src="src/android/res/file_paths.xml" target="res/xml/file_paths.xml"/>
+    <framework src="com.android.support:support-v4:$ANDROID_SUPPORT_V4_VERSION"/>
+    <preference name="ANDROID_SUPPORT_V4_VERSION" default="27.+"/>
   </platform>
   <platform name="ios">
     <config-file parent="/*" target="config.xml">
