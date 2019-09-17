@@ -54,7 +54,7 @@ public class WpsUtil {
     public void openDocument(File file) {
         try {
             wpsCloseListener = new WpsCloseListener();
-            IntentFilter filter = new IntentFilter();
+            IntentFilter filter = new IntentFilter(Define.OFFICE_SERVICE_ACTION);
             filter.addAction("com.kingsoft.writer.back.key.down");//按下返回键
             filter.addAction("com.kingsoft.writer.home.key.down");//按下home键
             filter.addAction("cn.wps.moffice.file.save");//保存
@@ -118,7 +118,7 @@ public class WpsUtil {
             Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage("cn.wps.moffice_eng");
             Bundle bundle = new Bundle();
             if (canWrite) {
-                bundle.putString(Define.OPEN_MODE, Define.NORMAL);
+                bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
                 bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
             } else {
                 bundle.putString(Define.OPEN_MODE, Define.NORMAL);

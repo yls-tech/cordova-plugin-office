@@ -39,8 +39,8 @@ public class Office extends CordovaPlugin implements WpsUtil.WpsInterface {
 
     private void open(String path, CallbackContext callbackContext) {
         if (path != null && path.length() > 0) {
-			wpsUtil = new WpsUtil(this, "", "", true, cordova.getActivity());
-            wpsUtil.openDocument(new File(path.trim()));
+			wpsUtil = new WpsUtil(this, "", path.trim(), true, cordova.getActivity());
+            wpsUtil.openDocument();
 
             wpsUtil.setGetUrl(new WpsUtil.WpsSave() {
                 @Override
