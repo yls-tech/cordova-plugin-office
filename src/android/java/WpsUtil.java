@@ -78,7 +78,7 @@ public class WpsUtil {
 
             Bundle bundle = new Bundle();
             //打开模式
-            bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
+            bundle.putString(Define.OPEN_MODE, Define.NORMAL);
             bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
             //bundle.putString(Define.OPEN_MODE, Define.READ_ONLY);
             bundle.putBoolean(Define.SEND_SAVE_BROAD, true);
@@ -97,7 +97,7 @@ public class WpsUtil {
             intent.setAction(Intent.ACTION_VIEW);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setDataAndType(contentUri, "*/*");
             } else {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -118,10 +118,10 @@ public class WpsUtil {
             Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage("cn.wps.moffice_eng");
             Bundle bundle = new Bundle();
             if (canWrite) {
-                bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
+                bundle.putString(Define.OPEN_MODE, Define.NORMAL);
                 bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
             } else {
-                bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
+                bundle.putString(Define.OPEN_MODE, Define.NORMAL);
                 bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
             }
             //打开模式
@@ -132,7 +132,7 @@ public class WpsUtil {
             bundle.putBoolean(Define.ENTER_REVISE_MODE, true);
             bundle.putBoolean(Define.IS_SHOW_VIEW, false);
             bundle.putBoolean(Define.AUTO_JUMP, true);
-            bundle.putString(Define.USER_NAME, userName);
+            bundle.putString(Define.USER_NAME,userName);
             bundle.putBoolean(Define.CLEAR_TRACE,true);
             bundle.putBoolean(Define.CLEAR_BUFFER,true);
             //bundle.putBoolean(Define.CLEAR_FILE,true);
@@ -171,8 +171,7 @@ public class WpsUtil {
                     if(canWrite) {
                         wpsInterface.doRequest(fileSavePath);
                     }
-                } else if (intent.getAction().equals("cn.wps.moffice.file.close")||
-                        intent.getAction().equals("com.kingsoft.writer.back.key.down")) {
+                } else if (intent.getAction().equals("cn.wps.moffice.file.close") || intent.getAction().equals("com.kingsoft.writer.back.key.down")) {
                     wpsInterface.doFinish();
                     mActivity.unregisterReceiver(wpsCloseListener);//注销广播
                 }
