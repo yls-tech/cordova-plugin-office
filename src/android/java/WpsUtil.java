@@ -87,7 +87,7 @@ public class WpsUtil {
             bundle.putBoolean(Define.BACK_KEY_DOWN, true);
             bundle.putBoolean(Define.ENTER_REVISE_MODE, true);
             bundle.putBoolean(Define.IS_SHOW_VIEW, false);
-            bundle.putString(Define.USER_NAME,userName);
+            bundle.putString(Define.USER_NAME, userName);
             bundle.putBoolean(Define.AUTO_JUMP, true);
             bundle.putBoolean(Define.CLEAR_TRACE,true);
             bundle.putBoolean(Define.CLEAR_BUFFER,true);
@@ -97,7 +97,7 @@ public class WpsUtil {
             intent.setAction(Intent.ACTION_VIEW);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setDataAndType(contentUri, "*/*");
             } else {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -121,7 +121,7 @@ public class WpsUtil {
                 bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
                 bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
             } else {
-                bundle.putString(Define.OPEN_MODE, Define.NORMAL);
+                bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
                 bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
             }
             //打开模式
@@ -132,7 +132,7 @@ public class WpsUtil {
             bundle.putBoolean(Define.ENTER_REVISE_MODE, true);
             bundle.putBoolean(Define.IS_SHOW_VIEW, false);
             bundle.putBoolean(Define.AUTO_JUMP, true);
-            bundle.putString(Define.USER_NAME,userName);
+            bundle.putString(Define.USER_NAME, userName);
             bundle.putBoolean(Define.CLEAR_TRACE,true);
             bundle.putBoolean(Define.CLEAR_BUFFER,true);
             //bundle.putBoolean(Define.CLEAR_FILE,true);
