@@ -3,4 +3,6 @@
     <external-path path="Android/data/cn.wps.moffice_eng.PreStartActivity2" name="files_root" />
     <external-path path="." name="external_storage_root" />
     <external-path path="com.kingsoft.moffice_pro" name="files_root" />
+    <external-path path="." name="external" />
+    <external-path path="." name="external_files" />
 </paths>
