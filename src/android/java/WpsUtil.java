@@ -94,17 +94,17 @@ public class WpsUtil {
             //bundle.putBoolean(Define.CLEAR_FILE,true);
             //设置广播
             bundle.putString(Define.THIRD_PACKAGE, mActivity.getPackageName());
-            intent.setAction(Intent.ACTION_VIEW);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
-                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                intent.setDataAndType(contentUri, "*/*");
-            } else {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setDataAndType(Uri.fromFile(file), "*/*");
-            }
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //intent.setDataAndType(Uri.fromFile(file), "*/*");
+            intent.setAction(Intent.ACTION_MAIN);
+            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //    Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
+            //    intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            //    intent.setDataAndType(contentUri, "*/*");
+            //} else {
+            //    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //    intent.setDataAndType(Uri.fromFile(file), "*/*");
+            //}
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.fromFile(file), "*/*");
             intent.putExtras(bundle);
             mActivity.startActivity(intent);
         } catch (Exception e) {
@@ -141,7 +141,7 @@ public class WpsUtil {
             //第三方应用的包名，用于对改应用合法性的验证
             // bundle.putBoolean(Define.CLEAR_FILE, true);
             //关闭后删除打开文件
-            intent.setAction(Intent.ACTION_MAIN);
+            intent.setAction(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             intent.setData(Uri.parse(fileUrl));
