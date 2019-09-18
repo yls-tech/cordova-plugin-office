@@ -103,7 +103,7 @@ public class WpsUtil {
             //intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Uri uri = Uri.fromFile(file);
-            Log.d("Uri--->>>>", uri);
+            Log.d("Uri--->>>>", uri.toString());
 
             intent.setData(uri);
             intent.putExtras(bundle);
