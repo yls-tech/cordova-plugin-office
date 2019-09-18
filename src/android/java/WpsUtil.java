@@ -116,7 +116,7 @@ public class WpsUtil {
             }*/
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Uri contentUri = FileProvider.getUriForFile(mActivity,mActivity.getPackageName()+".fileProvider", file);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setDataAndType(contentUri, type);
             } else {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
