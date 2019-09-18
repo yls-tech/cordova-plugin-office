@@ -28,7 +28,6 @@ public class WpsUtil {
     private WpsSave wpsSave;
     private Boolean canWrite;
     private Activity mActivity;
-    private String fileName;
     private String fileUrl;
     private String userName = "yls-tech";
 
@@ -40,16 +39,11 @@ public class WpsUtil {
         this.wpsSave = wpsSave;
     }
 
-    public WpsUtil(WpsInterface wpsInterface, String fileName, String fileUrl, Boolean canWrite, Activity activity) {
+    public WpsUtil(WpsInterface wpsInterface, String fileUrl, Boolean canWrite, Activity activity) {
         this.wpsInterface = wpsInterface;
+        this.fileUrl = fileUrl;
         this.canWrite = canWrite;
         this.mActivity = activity;
-        this.fileName = fileName;
-        this.fileUrl = fileUrl;
-    }
-
-    public void openDocument() {
-        openDocument(null);
     }
 
     public void openDocument(File file) {
@@ -61,11 +55,7 @@ public class WpsUtil {
             filter.addAction("cn.wps.moffice.file.save");//保存
             filter.addAction("cn.wps.moffice.file.close");//关闭
             mActivity.registerReceiver(wpsCloseListener,filter);//注册广播
-            if (file!=null) {
-                openDocWithSimple(file);
-            } else {
-                openDocFile();
-            }
+            openDoc(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,7 +63,7 @@ public class WpsUtil {
     }
 
     // 打开本地文件
-    public void openDocWithSimple(File file) {
+    public void openDoc(File file) {
         try {
             Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage("cn.wps.moffice_eng");
 
@@ -97,25 +87,20 @@ public class WpsUtil {
             bundle.putString(Define.THIRD_PACKAGE, mActivity.getPackageName());
             //华为参数
             bundle.putBoolean("huawei_print_enable",true);
+            intent.putExtras(bundle);
 
             intent.setAction(Intent.ACTION_MAIN);
             intent.setClassName("cn.wps.moffice_eng", Define.CLASSNAME);
             //intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Uri uri = Uri.fromFile(file);
-            Log.d("Uri--->>>>", uri.toString());
 
-            intent.setData(uri);
-            intent.putExtras(bundle);
             String type = this.getMIMEType(file);
-            intent.setDataAndType(Uri.fromFile(file), type);
-
-            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            //    Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
-            //    intent.setDataAndType(contentUri, "*/*");
-            //} else {
-            //    intent.setDataAndType(Uri.fromFile(file), "*/*");
-            //}
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
+                intent.setDataAndType(contentUri, type);
+            } else {
+                intent.setDataAndType(Uri.fromFile(file), type);
+            }
             mActivity.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,48 +122,6 @@ public class WpsUtil {
         }
         type += "/*";
         return type;
-    }
-
-    // 打开文档
-    boolean openDocFile() {
-        try {
-            Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage("cn.wps.moffice_eng");
-            Bundle bundle = new Bundle();
-            if (canWrite) {
-                bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
-                bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
-            } else {
-                bundle.putString(Define.OPEN_MODE, Define.NORMAL);
-                bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
-            }
-            //打开模式
-            bundle.putBoolean(Define.SEND_SAVE_BROAD, true);
-            bundle.putBoolean(Define.SEND_CLOSE_BROAD, true);
-            bundle.putBoolean(Define.HOME_KEY_DOWN, true);
-            bundle.putBoolean(Define.BACK_KEY_DOWN, true);
-            bundle.putBoolean(Define.ENTER_REVISE_MODE, true);
-            bundle.putBoolean(Define.IS_SHOW_VIEW, false);
-            bundle.putBoolean(Define.AUTO_JUMP, true);
-            bundle.putString(Define.USER_NAME, userName);
-            bundle.putBoolean(Define.CLEAR_TRACE,true);
-            bundle.putBoolean(Define.CLEAR_BUFFER,true);
-            //bundle.putBoolean(Define.CLEAR_FILE,true);
-            //设置广播
-            bundle.putString(Define.THIRD_PACKAGE, mActivity.getPackageName());
-            //第三方应用的包名，用于对改应用合法性的验证
-            // bundle.putBoolean(Define.CLEAR_FILE, true);
-            //关闭后删除打开文件
-            intent.setAction(Intent.ACTION_MAIN);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-            intent.setData(Uri.parse(fileUrl));
-            intent.putExtras(bundle);
-            mActivity.startActivity(intent);
-            return true;
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     public interface WpsInterface {
