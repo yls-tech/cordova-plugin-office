@@ -71,9 +71,13 @@ public class WpsUtil {
 
             Bundle bundle = new Bundle();
             //打开模式
-            bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
-            bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
-            //bundle.putString(Define.OPEN_MODE, Define.READ_ONLY);
+            if (canWrite) {
+                bundle.putString(Define.OPEN_MODE, Define.EDIT_MODE);
+                bundle.putBoolean(Define.ENTER_REVISE_MODE, true);//以修订模式打开
+            } else {
+                bundle.putString(Define.OPEN_MODE, Define.READ_ONLY);
+                bundle.putBoolean(Define.ENTER_REVISE_MODE, false);//以修订模式打开
+            }
             bundle.putBoolean(Define.SEND_SAVE_BROAD, true);
             bundle.putBoolean(Define.SEND_CLOSE_BROAD, true);
             bundle.putBoolean(Define.HOME_KEY_DOWN, true);
@@ -84,16 +88,14 @@ public class WpsUtil {
             bundle.putBoolean(Define.AUTO_JUMP, true);
             bundle.putBoolean(Define.CLEAR_TRACE,true);
             bundle.putBoolean(Define.CLEAR_BUFFER,true);
-            //bundle.putBoolean(Define.CLEAR_FILE,true);
+            bundle.putBoolean(Define.CLEAR_FILE,true);
             //设置广播
             bundle.putString(Define.THIRD_PACKAGE, mActivity.getPackageName());
             //华为参数
             bundle.putBoolean("huawei_print_enable",true);
-            intent.putExtras(bundle);
 
             intent.setAction(Intent.ACTION_VIEW);
             intent.setClassName("cn.wps.moffice_eng", Define.CLASSNAME);
-            //intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             Log.d("------>>>File Url:", fileUrl);
@@ -102,6 +104,8 @@ public class WpsUtil {
             if (file == null || !file.exists()) {
                 Log.e("------>>>File:", "打开失败，文件不存在！");
             }
+            bundle.putString(Define.SAVE_PATH, Uri.parse(fileUrl).getPath()); //文件保存路径
+
             String type = this.getMIMEType();
             /*
             Uri uri = Uri.fromFile(file);
@@ -118,13 +122,13 @@ public class WpsUtil {
             }*/
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Uri contentUri = FileProvider.getUriForFile(mActivity,mActivity.getPackageName()+".fileProvider", file);
-                //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 grantPermissions(mActivity.getBaseContext(), intent, contentUri);
                 intent.setDataAndType(contentUri, type);
             } else {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setDataAndType(Uri.fromFile(file), type);
             }
+            intent.putExtras(bundle);
             mActivity.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,13 +146,10 @@ public class WpsUtil {
         if (canWrite) {
             flag |= Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
         }
-        Log.e("------>>>Flag:", String.valueOf(flag));
         intent.addFlags(flag);
         List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo resolveInfo : resInfoList) {
             String packageName = resolveInfo.activityInfo.packageName;
-            Log.e("------>>>Uri:", uri.toString());
-            Log.e("------>>>packageName:", packageName);
             context.grantUriPermission(packageName, uri, flag);
         }
     }
