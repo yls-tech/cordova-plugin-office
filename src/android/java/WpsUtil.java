@@ -46,7 +46,7 @@ public class WpsUtil {
         this.mActivity = activity;
     }
 
-    public void openDocument(File file) {
+    public void open(File file) {
         try {
             wpsCloseListener = new WpsCloseListener();
             IntentFilter filter = new IntentFilter(Define.OFFICE_SERVICE_ACTION);
@@ -55,7 +55,7 @@ public class WpsUtil {
             filter.addAction("cn.wps.moffice.file.save");//保存
             filter.addAction("cn.wps.moffice.file.close");//关闭
             mActivity.registerReceiver(wpsCloseListener,filter);//注册广播
-            openDoc(file);
+            openDocument(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class WpsUtil {
     }
 
     // 打开本地文件
-    public void openDoc(File file) {
+    private void openDocument(File file) {
         try {
             Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage("cn.wps.moffice_eng");
 
