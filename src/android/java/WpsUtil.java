@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.cordova.CallbackContext;
@@ -102,6 +103,8 @@ public class WpsUtil {
             //intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Uri uri = Uri.fromFile(file);
+            Log.d("Uri--->>>>", uri);
+
             intent.setData(uri);
             intent.putExtras(bundle);
             String type = this.getMIMEType(file);
