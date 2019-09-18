@@ -95,12 +95,14 @@ public class WpsUtil {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             Log.d("------>>>File Url:", fileUrl);
-            //Uri uri = Uri.parse(fileUrl);
-            File file = new File(fileUrl);
+
+            Uri uri = Uri.parse(fileUrl);
+            Log.d("------>>>Url Path:", uri.getPath());
+
+            File file = new File(uri.getPath());
             if (file == null || !file.exists()) {
                 Log.e("------>>>File:", "打开失败，文件不存在！");
             }
-            Uri uri = Uri.fromFile(file);
             intent.setData(uri);
             intent.putExtras(bundle);
             String type = this.getMIMEType();
