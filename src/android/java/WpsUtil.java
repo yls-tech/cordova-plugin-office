@@ -96,17 +96,15 @@ public class WpsUtil {
 
             Log.d("------>>>File Url:", fileUrl);
 
-            Uri uri = Uri.parse(fileUrl);
-            Log.d("------>>>Url Path:", uri.getPath());
-
-            File file = new File(uri.getPath());
+            File file = new File(Uri.parse(fileUrl).getPath());
             if (file == null || !file.exists()) {
                 Log.e("------>>>File:", "打开失败，文件不存在！");
             }
+            Uri uri = Uri.fromFile(file);
             intent.setData(uri);
             intent.putExtras(bundle);
-            String type = this.getMIMEType();
-            intent.setDataAndType(Uri.fromFile(file), type);
+            //String type = this.getMIMEType();
+            //intent.setDataAndType(Uri.fromFile(file), type);
 
             /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
