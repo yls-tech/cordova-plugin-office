@@ -100,10 +100,12 @@ public class WpsUtil {
             if (file == null || !file.exists()) {
                 Log.e("------>>>File:", "打开失败，文件不存在！");
             }
+            String type = this.getMIMEType();
+            /*
             Uri uri = Uri.fromFile(file);
             intent.setData(uri);
             intent.putExtras(bundle);
-            //String type = this.getMIMEType();
+            */
             //intent.setDataAndType(Uri.fromFile(file), type);
 
             /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -112,6 +114,14 @@ public class WpsUtil {
             } else {
                 intent.setDataAndType(Uri.fromFile(file), type);
             }*/
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Uri contentUri = FileProvider.getUriForFile(mActivity,mActivity.getPackageName()+".fileProvider", file);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.setDataAndType(contentUri, type);
+            } else {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setDataAndType(Uri.fromFile(file), type);
+            }
             mActivity.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
