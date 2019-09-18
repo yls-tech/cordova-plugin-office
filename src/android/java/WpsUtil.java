@@ -46,7 +46,7 @@ public class WpsUtil {
         this.mActivity = activity;
     }
 
-    public void open(File file) {
+    public void open() {
         try {
             wpsCloseListener = new WpsCloseListener();
             IntentFilter filter = new IntentFilter(Define.OFFICE_SERVICE_ACTION);
@@ -55,7 +55,7 @@ public class WpsUtil {
             filter.addAction("cn.wps.moffice.file.save");//保存
             filter.addAction("cn.wps.moffice.file.close");//关闭
             mActivity.registerReceiver(wpsCloseListener,filter);//注册广播
-            openDocument(file);
+            openDocument();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class WpsUtil {
     }
 
     // 打开本地文件
-    private void openDocument(File file) {
+    private void openDocument() {
         try {
             Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage("cn.wps.moffice_eng");
 
@@ -94,21 +94,25 @@ public class WpsUtil {
             //intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            String type = this.getMIMEType(file);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Log.d("------>>>File Url:", fileUrl);
+            Uri uri = Uri.parse(fileUrl);
+
+            String type = this.getMIMEType();
+            intent.setDataAndType(uri, type);
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
                 intent.setDataAndType(contentUri, type);
             } else {
                 intent.setDataAndType(Uri.fromFile(file), type);
-            }
+            }*/
             mActivity.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static String getMIMEType(File f) {
-        String end = f.getName().substring(f.getName().lastIndexOf(".") + 1, f.getName().length()).toLowerCase();
+    private String getMIMEType() {
+        String end = fileUrl.substring(fileUrl.lastIndexOf(".") + 1, fileUrl.length()).toLowerCase();
         String type = "";
         if (end.equals("mp3") || end.equals("aac") || end.equals("aac") || end.equals("amr") || end.equals("mpeg") || end.equals("mp4")) {
             type = "audio";
