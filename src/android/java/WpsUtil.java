@@ -120,26 +120,16 @@ public class WpsUtil {
     }
 
     public static String getMIMEType(File f) {
-        String end = f.getName().substring(f.getName().lastIndexOf(".") + 1,
-                f.getName().length()).toLowerCase();
+        String end = f.getName().substring(f.getName().lastIndexOf(".") + 1, f.getName().length()).toLowerCase();
         String type = "";
-        if (end.equals("mp3") || end.equals("aac") || end.equals("aac")
-                || end.equals("amr") || end.equals("mpeg") || end.equals("mp4"))
-        {
+        if (end.equals("mp3") || end.equals("aac") || end.equals("aac") || end.equals("amr") || end.equals("mpeg") || end.equals("mp4")) {
             type = "audio";
-        }
-        else if (end.equals("jpg") || end.equals("gif") || end.equals("png") || end.equals("jpeg"))
-        {
+        } else if (end.equals("jpg") || end.equals("gif") || end.equals("png") || end.equals("jpeg")) {
             type = "image";
-        }
-        else if (end.equals("doc") || end.equals("docx") || end.equals("pdf")
-                || end.equals("txt"))
-        {
+        } else if (end.equals("doc") || end.equals("docx") || end.equals("pdf") || end.equals("txt")) {
             type = "application/msword";
             return type;
-        }
-        else
-        {
+        } else {
             type = "*";
         }
         type += "/*";
