@@ -94,20 +94,56 @@ public class WpsUtil {
             //bundle.putBoolean(Define.CLEAR_FILE,true);
             //设置广播
             bundle.putString(Define.THIRD_PACKAGE, mActivity.getPackageName());
+            //华为参数
+            bundle.putBoolean("huawei_print_enable",true);
+
             intent.setAction(Intent.ACTION_MAIN);
+            intent.setClassName("cn.wps.moffice_eng", Define.CLASSNAME);
             //intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
-                intent.setDataAndType(contentUri, "*/*");
-            } else {
-                intent.setDataAndType(Uri.fromFile(file), "*/*");
-            }
+            Uri uri = Uri.fromFile(file);
+            intent.setData(uri);
             intent.putExtras(bundle);
+            String type = Util.getMIMEType(file);
+            intent.setDataAndType(Uri.fromFile(file), type);
+
+            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //    Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
+            //    intent.setDataAndType(contentUri, "*/*");
+            //} else {
+            //    intent.setDataAndType(Uri.fromFile(file), "*/*");
+            //}
             mActivity.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static String getMIMEType(File f) {
+        String end = f.getName().substring(f.getName().lastIndexOf(".") + 1,
+                f.getName().length()).toLowerCase();
+        String type = "";
+        if (end.equals("mp3") || end.equals("aac") || end.equals("aac")
+                || end.equals("amr") || end.equals("mpeg") || end.equals("mp4"))
+        {
+            type = "audio";
+        }
+        else if (end.equals("jpg") || end.equals("gif") || end.equals("png") || end.equals("jpeg"))
+        {
+            type = "image";
+        }
+        else if (end.equals("doc") || end.equals("docx") || end.equals("pdf")
+                || end.equals("txt"))
+        {
+            type = "application/msword";
+            return type;
+        }
+        else
+        {
+            type = "*";
+        }
+        type += "/*";
+        return type;
     }
 
     // 打开文档
