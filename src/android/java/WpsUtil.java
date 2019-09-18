@@ -10,6 +10,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -117,6 +119,7 @@ public class WpsUtil {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Uri contentUri = FileProvider.getUriForFile(mActivity,mActivity.getPackageName()+".fileProvider", file);
                 //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                grantPermissions(mActivity.getBaseContext(), intent, contentUri, true);
                 intent.setDataAndType(contentUri, type);
             } else {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -125,6 +128,27 @@ public class WpsUtil {
             mActivity.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 授权
+     *
+     * @param context
+     * @param intent
+     * @param uri
+     * @param writeAble
+     */
+    public static void grantPermissions(Context context, Intent intent, Uri uri, boolean writeAble) {
+        int flag = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+        if (writeAble) {
+            flag |= Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+        }
+        intent.addFlags(flag);
+        List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            context.grantUriPermission(packageName, uri, flag);
         }
     }
 
