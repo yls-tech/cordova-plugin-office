@@ -89,7 +89,7 @@ public class WpsUtil {
             bundle.putBoolean("huawei_print_enable",true);
             intent.putExtras(bundle);
 
-            intent.setAction(Intent.ACTION_MAIN);
+            intent.setAction(Intent.ACTION_VIEW);
             intent.setClassName("cn.wps.moffice_eng", Define.CLASSNAME);
             //intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -171,7 +171,7 @@ public class WpsUtil {
         //找到当前应用的task，并启动task的栈顶activity，达到程序切换到前台
         for (ActivityManager.RunningTaskInfo rti : taskList) {
             if (rti.topActivity.getPackageName().equals(mActivity.getPackageName())) {
-                Intent LaunchIntent = new Intent(Intent.ACTION_MAIN);
+                Intent LaunchIntent = new Intent(Intent.ACTION_VIEW);
                 LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 ComponentName cn = new ComponentName(mActivity.getPackageName(), rti.topActivity.getClassName());
                 LaunchIntent.setComponent(cn);
