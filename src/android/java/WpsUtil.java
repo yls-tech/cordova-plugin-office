@@ -104,7 +104,7 @@ public class WpsUtil {
             Uri uri = Uri.fromFile(file);
             intent.setData(uri);
             intent.putExtras(bundle);
-            String type = Util.getMIMEType(file);
+            String type = this.getMIMEType(file);
             intent.setDataAndType(Uri.fromFile(file), type);
 
             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
