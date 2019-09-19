@@ -1,20 +1,14 @@
 package com.yls.tech.plugin;
 
-import android.util.Log;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.util.Log;
 
-import com.yls.tech.plugin.WpsUtil;
-
-import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
-
+import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -31,15 +25,16 @@ public class Office extends CordovaPlugin implements WpsUtil.WpsInterface {
 
         if (action.equals("open")) {
             String path = args.getString(0);
-            this.open(path, callbackContext);
+            Boolean canWrite = args.getBoolean(1);
+            this.open(path, canWrite, callbackContext);
             return true;
         }
         return false;
     }
 
-    private void open(String path, CallbackContext callbackContext) {
+    private void open(String path, Boolean canWrite, CallbackContext callbackContext) {
         if (path != null && path.length() > 0) {
-			wpsUtil = new WpsUtil(this, path, true, cordova.getActivity());
+			wpsUtil = new WpsUtil(this, path, canWrite, cordova.getActivity());
             wpsUtil.open();
 
             wpsUtil.setGetUrl(new WpsUtil.WpsSave() {
@@ -84,6 +79,5 @@ public class Office extends CordovaPlugin implements WpsUtil.WpsInterface {
         //mAm.forceStopPackage("com.bbk.audiofx");
         //mAm.killBackgroundProcesses(packageName);
         //android.os.Process.killProcess(pid);
-
     }
 }

@@ -1,10 +1,7 @@
 package com.yls.tech.plugin;
 
-import com.yls.tech.plugin.Define;
-
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,9 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
-import android.widget.Toast;
-
-import org.apache.cordova.CallbackContext;
 
 import java.io.File;
 import java.util.List;
@@ -61,7 +55,6 @@ public class WpsUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     // 打开本地文件
@@ -107,19 +100,6 @@ public class WpsUtil {
             bundle.putString(Define.SAVE_PATH, Uri.parse(fileUrl).getPath()); //文件保存路径
 
             String type = this.getMIMEType();
-            /*
-            Uri uri = Uri.fromFile(file);
-            intent.setData(uri);
-            intent.putExtras(bundle);
-            */
-            //intent.setDataAndType(Uri.fromFile(file), type);
-
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Uri contentUri = FileProvider.getUriForFile(mActivity, mActivity.getPackageName()+".fileProvider", file);
-                intent.setDataAndType(contentUri, type);
-            } else {
-                intent.setDataAndType(Uri.fromFile(file), type);
-            }*/
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Uri contentUri = FileProvider.getUriForFile(mActivity,mActivity.getPackageName()+".fileProvider", file);
                 grantPermissions(mActivity.getBaseContext(), intent, contentUri);
@@ -154,6 +134,9 @@ public class WpsUtil {
         }
     }
 
+    /**
+     * 获得文件类型
+     */
     private String getMIMEType() {
         String end = fileUrl.substring(fileUrl.lastIndexOf(".") + 1, fileUrl.length()).toLowerCase();
         String type = "";
