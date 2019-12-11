@@ -87,6 +87,8 @@ public class WpsUtil {
             //华为参数
             bundle.putBoolean("huawei_print_enable",true);
 
+            bundle.putBoolean("DisplayView", true);
+
             intent.setAction(Intent.ACTION_VIEW);
             intent.setClassName("cn.wps.moffice_eng", Define.CLASSNAME);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
